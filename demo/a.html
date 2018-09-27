@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<!-- 测试在apache里的letao-访问localhost3000
+	就是跨域-老师实现的是将https-conf修改配件-将/api==http://loclahost:3000
+	//还有助教讲的node环境可以实现跨域
+ -->
+	<script src="jquery-1.12.4.min.js"></script>
+	<script>
+	$.ajax({
+		url:'/api/user/login',
+		type:'post',
+		 data: {
+                    username: 'itcast',
+                    password:'111111'
+                },
+		success:function(res){
+			console.log(res);
+		}
+
+	})
+	</script>
+</body>
+</html>
