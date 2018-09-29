@@ -20,11 +20,23 @@
         <span class="title">收货地址管理</span>
     </header>
     <div class="cz_container">
-        <ul class="mui-table-view ulbody">
-          
-           
-        </ul>
-         <button class="mui-btn mui-btn-primary btn_add">添加地址</button>
+       <form action="">
+            <div class="form_box">
+                <div class="mui-input-row">
+                    <input name="recipients" type="text" placeholder="收货人">
+                </div>
+                <div class="mui-input-row">
+                    <input name="address" type="text" placeholder="详细地址">
+                </div>
+                <div class="mui-input-row">
+                    <input name="postcode" type="text" placeholder="邮编">
+                </div>
+                <div class="mui-input-row">
+                    <textarea name="addressDetail" id="textarea" rows="5" placeholder="多行文本框"></textarea>
+                </div>
+                <button type="submit" class="mui-btn mui-btn-primary btn_login">确认</button>
+            </div>
+       </form>
     </div>
     <footer class="cz_tabs">
         <a class="tab_home fa fa-home" href="../index.html"><span>首页</span></a>
@@ -35,47 +47,22 @@
 </div>
 <script src="../res/mui/js/mui.min.js"></script>
 <script src="../js/jquery.min.js"></script>
-<script src="../js/template-web.js"></script>
-<!-- 模版必须是id -->
-<script type="text/temllate" id="tel">
-    {{each list val}}
-     <li class="mui-table-view-cell">
-                <div class="mui-slider-right mui-disabled">
-                    <a class="mui-btn mui-btn-red">删除</a>
-                </div>
-                <a href="addressManage.html" class="mui-navigate-right mui-slider-handle">
-                    <div class="delivery">邮编：<span>{{val.postCode}}</span>&nbsp;收货人：<span>{{val.recipients}}</span></div>
-                    <div class="address">{{val.address}}
-                    {{val.addressDetail}}
-                    </div>
-                </a>
-     </li>
-     {{/each}}
-</script>
 <script>
-//直接发送请求-请求请求数据
-$.ajax({
-    url:'/api/address/queryAddress',
-    success:function(res){
-        console.log(res);
-        var d = template('tel',{list:res});
-        console.log(d)
-        $('.ulbody').html(d);
-    }
-})
+    $('form').on('submit',function(){
+        var data = $(this).serialize();
 
-
-
-
-
-
-
-
-
-
-//新增地址
-    $('.btn_add').on('click',function(){
-        location.href = 'address-add.html';
+        $.ajax({
+            url:'/api/address/addAddress',
+            data:data,
+            type:'post',
+            success:function(res){
+                console.log(res);
+                if(res.success){
+                    location.href='address.html';
+                }
+            }
+        })
+        return false;
     })
 </script>
 </body>

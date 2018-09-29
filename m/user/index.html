@@ -25,7 +25,7 @@
                     <a class="mui-navigate-right" href="#account">
                         <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../images/user.jpg">
                         <div class="mui-media-body">
-                            Hello MUI
+                            <span class="uname"></span>
                             <p class="mui-ellipsis">账号:hellomui</p>
                         </div>
                     </a>
@@ -43,7 +43,8 @@
                 </li>
             </ul>
             <div class="p20">
-                <a href="login.html" class="mui-btn btn_outLogin">退出登录</a>
+            <!-- 将ade href改成js就可以不跳转 -->
+                <a href="javascript:;" class="mui-btn btn_outLogin">退出登录</a>
             </div>
         </div>
         <footer class="cz_tabs">
@@ -55,24 +56,7 @@
     </div>
     <script src="../res/mui/js/mui.min.js"></script>
     <script src="../js/jquery.min.js"></script>
-    <!-- 
-    <script>
-        // 检测用户是否登录
-        $.ajax({
-            url: '/api/user/queryUserMessage',
-            type: 'get',
-            // xhrFields: {
-            //     withCredentials : true
-            // },
-            success: function (info) {
-                console.log(info);
 
-                // if(info.error) {
-                //     location.href = './login.html';
-                // }
-            }
-        });
-    </script> -->
     <script>
         // 手机端的首页
         //首先要确定用户是否登录
@@ -84,11 +68,28 @@
             success:function(res){
                 //显示的是object-有error存在就未登录
                 console.log(res);
+                //html里面的变量不加引号
+                $('.uname').html(res.username);
                 if(res.error){
                     console.log(res.error+'*****'+res.message);
                     location.href = 'login.html';
+
                 }
             }
+        })
+        //退出登录
+        //退出就是发请求给后端-让后端清除session
+        $('.btn_outLogin').on('click',function(){
+            $.ajax({
+                url:'/api/user/logout',
+                success:function(res){
+                    console.log(res);
+                    if(res.success){
+                        location.href = '/m';
+                        //一个斜杠(/)表示http://-上面就相当于绝对路径
+                    }
+                }
+            })
         })
     </script>
 </body>
